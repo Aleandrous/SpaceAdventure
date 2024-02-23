@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.example.alex_framework.CoreFW;
 import com.example.alex_framework.SceneFW;
 import com.example.spaceadventure.R;
+import com.example.spaceadventure.utilits.UtilResource;
 
 public class MainMenuScene extends SceneFW {
 
@@ -17,7 +18,13 @@ public class MainMenuScene extends SceneFW {
     public void update() {
         if(coreFW.getTouchListenerFW().getTouchUp(20, 300, 100, 50)){
             coreFW.setScene(new GameScene(coreFW));
+            UtilResource.touch.play(1);
         }
+        if(coreFW.getTouchListenerFW().getTouchUp(20, 400, 100, 50)){
+            coreFW.setScene(new TopDistance(coreFW));
+            UtilResource.touch.play(1);
+        }
+
 
     }
 

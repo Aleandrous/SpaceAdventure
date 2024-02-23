@@ -4,21 +4,22 @@ import com.example.alex_framework.ObjectFW;
 import com.example.alex_framework.utilits.UtilRandomFW;
 
 public class Star extends ObjectFW {
-    public Star(int sceneWidth, int sceneHeight) {
+    public Star(int sceneWidth, int sceneHeight, int minScreenY) {
         this.maxScreenX = sceneWidth;
         this.maxScreenY = sceneHeight;
         this.minScreenX = 0;
-        this.minScreenY = 0;
+        this.minScreenY = minScreenY;
         this.speed = 2;
         this.x = UtilRandomFW.getCasualNumber(maxScreenX);
-        this.y = UtilRandomFW.getCasualNumber(maxScreenY);
+        this.y = UtilRandomFW.getGap(minScreenY,maxScreenY);
     }
 
-    public void update (){
+    public void update (double speedPlayer){
+        x -= speedPlayer;
         x -= speed;
         if (x<0){
             x = maxScreenX;
-            y = UtilRandomFW.getCasualNumber(maxScreenY);
+            y = UtilRandomFW.getGap(minScreenY,maxScreenY);
         }
     }
     public int getX(){

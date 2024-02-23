@@ -10,5 +10,16 @@
 
     <!--GameScene-->
     <string name="txt_gameScene_stateReady_ready">Are you ready?</string>
+    <string name="txt_gameScene_stateGameOver_gameOver">GAME OVER</string>
+    <string name="txt_gameScene_stateGameOver_restart">START NEW GAME</string>
+    <string name="txt_gameScene_stateGameOver_exit">MAIN MENU</string>
+    <string name="txt_gameScene_stateGameOver_distance">RESULTS</string>
+    
+    <string name="txt_top_distance">BEST RESULTS</string>
+
+    <!--Hood-->
+    <string name="txt_hood_passedDistance">Distance</string>
+    <string name="txt_hood_currentSpeedPlayer">Speed</string>
+    <string name="txt_hood_currentShields">Shields</string>
 
 </resources>

@@ -5,7 +5,10 @@ import android.graphics.Color;
 import com.example.alex_framework.CoreFW;
 import com.example.alex_framework.SceneFW;
 import com.example.spaceadventure.R;
+import com.example.spaceadventure.clases.GameManager;
 import com.example.spaceadventure.generator.GeneratorBackground;
+import com.example.spaceadventure.utilits.SettingsGame;
+import com.example.spaceadventure.utilits.UtilResource;
 
 public class GameScene extends SceneFW {
 
@@ -13,11 +16,13 @@ public class GameScene extends SceneFW {
         READY, RUNNING, PAUSE, GAMEOVER
     }
     GameState gameState;
-    GeneratorBackground generatorBackground;
+
+    GameManager gameManager;
     public GameScene(CoreFW coreFW) {
         super(coreFW);
         gameState = GameState.READY;
-        generatorBackground = new GeneratorBackground(sceneWidth, sceneHeight);
+        gameManager = new GameManager(coreFW,sceneWidth, sceneHeight);
+        UtilResource.gameMusic.play(true, 1f);
     }
 
     @Override
@@ -55,9 +60,26 @@ public class GameScene extends SceneFW {
     }
 
     private void drawingStateGameOver() {
+        graphicFW.clearScene(Color.BLACK);
+        graphicFW.drawText(coreFW.getString(R.string.txt_gameScene_stateGameOver_gameOver),
+                250, 300, Color.WHITE, 60, null);
+        graphicFW.drawText(coreFW.getString(R.string.txt_gameScene_stateGameOver_restart),
+                250, 360, Color.WHITE, 30, null);
+        graphicFW.drawText(coreFW.getString(R.string.txt_gameScene_stateGameOver_exit),
+                250, 420, Color.WHITE, 30, null);
+        graphicFW.drawText(coreFW.getString(R.string.txt_gameScene_stateGameOver_distance) + ":" + gameManager.getPassedDistance(),
+                250, 200, Color.WHITE, 30, null);
 
     }
     private void updateStateGameOver() {
+        SettingsGame.addDistance(gameManager.getPassedDistance());
+        if (coreFW.getTouchListenerFW().getTouchUp(250, 360, 100, 35)){
+            coreFW.setScene(new GameScene(coreFW));
+        }
+        if (coreFW.getTouchListenerFW().getTouchUp(250, 420, 100, 35)){
+            coreFW.setScene(new MainMenuScene(coreFW));
+        }
+
 
     }
 
@@ -70,12 +92,15 @@ public class GameScene extends SceneFW {
 
     private void drawingStateRunning() {
         graphicFW.clearScene(Color.BLACK);
-        graphicFW.drawText("Game Scene", 250, 300, Color.WHITE, 60, null);
-        generatorBackground.drawing(graphicFW);
+
+
+        gameManager.drawing(coreFW, graphicFW);
     }
     private void updateStateRunning() {
-        generatorBackground.update();
-
+        gameManager.update();
+        if (GameManager.gameOver){
+            gameState = GameState.GAMEOVER;
+        }
     }
 
     private void drawingStateReady() {
@@ -91,16 +116,23 @@ public class GameScene extends SceneFW {
 
     @Override
     public void pause() {
+        UtilResource.gameMusic.stop();
 
     }
 
     @Override
     public void resume() {
+        UtilResource.gameMusic.play(true, 1f);
+
 
     }
 
     @Override
     public void dispose() {
+        UtilResource.explode.dispose();
+        UtilResource.hit.dispose();
+        UtilResource.touch.dispose();
+        UtilResource.gameMusic.dispose();
 
     }
 }

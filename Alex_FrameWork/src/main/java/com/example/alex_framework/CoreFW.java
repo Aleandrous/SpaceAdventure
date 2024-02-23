@@ -1,5 +1,6 @@
 package com.example.alex_framework;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ public class CoreFW extends AppCompatActivity {
     private LoopFW loopFW;
     private GraphicFW graphicFW;
     private TouchListenerFW touchListenerFW;
+
+    private AudioFW audioFW;
     private Display display;
     private Point sizeDisplay;
     private Bitmap frameBuffer;
@@ -24,11 +27,16 @@ public class CoreFW extends AppCompatActivity {
 
     private boolean stateOnPause;
     private boolean stateOnResume;
-
+    SharedPreferences sharedPreferences;
+    private final String SETTINGS = "settings";
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences(SETTINGS, MODE_PRIVATE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         sizeDisplay = new Point();
@@ -38,7 +46,7 @@ public class CoreFW extends AppCompatActivity {
         frameBuffer = Bitmap.createBitmap((int) frame_buffer_width, (int) frame_buffer_height, Bitmap.Config.ARGB_8888);
         sceneWidth = frame_buffer_width / sizeDisplay.x;
         sceneHeight = frame_buffer_height / sizeDisplay.y;
-
+        audioFW = new AudioFW(this);
         loopFW = new LoopFW (this, frameBuffer);
         graphicFW = new GraphicFW(getAssets(), frameBuffer);
         touchListenerFW = new TouchListenerFW(loopFW, sceneWidth, sceneHeight);
@@ -57,6 +65,11 @@ public class CoreFW extends AppCompatActivity {
     public CoreFW() {
 
     }
+
+    public AudioFW getAudioFW() {
+        return audioFW;
+    }
+
     public void onResume(){
         super.onResume();
         sceneFW.resume();
