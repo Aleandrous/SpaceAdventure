@@ -2,7 +2,6 @@ package com.example.spaceadventure.objects;
 
 import com.example.alex_framework.ObjectFW;
 import com.example.alex_framework.utilits.UtilRandomFW;
-
 public class Star extends ObjectFW {
     public Star(int sceneWidth, int sceneHeight, int minScreenY) {
         this.maxScreenX = sceneWidth;
@@ -13,7 +12,6 @@ public class Star extends ObjectFW {
         this.x = UtilRandomFW.getCasualNumber(maxScreenX);
         this.y = UtilRandomFW.getGap(minScreenY,maxScreenY);
     }
-
     public void update (double speedPlayer){
         x -= speedPlayer;
         x -= speed;

@@ -4,47 +4,45 @@ import com.example.alex_framework.GraphicFW;
 import com.example.alex_framework.utilits.UtilTimerDelay;
 import com.example.spaceadventure.objects.MainPlayer;
 import com.example.spaceadventure.objects.Protector;
-
-import java.util.ArrayList;
-
 public class GeneratorGifts {
-    Protector protector;
-    UtilTimerDelay timerProtector;
-    private int maxScreenY;
-    private int maxScreenX;
-    private int minScreenY;
-    private int minScreenX;
+    private Protector mProtector;
+    private UtilTimerDelay mTimerProtector;
+    private int mMaxScreenY;
+    private int mMaxScreenX;
+    private int mMinScreenY;
+    private int mMinScreenX;
 
     public GeneratorGifts(int sceneWidth, int sceneHeight, int minScreenY) {
-        this.maxScreenX = sceneWidth;
-        this.maxScreenY = sceneHeight;
-        this.minScreenY = minScreenY;
-        this.minScreenX = 0;
-        protector = new Protector(maxScreenX, maxScreenY,minScreenY);
-        timerProtector = new UtilTimerDelay();
-        timerProtector.startTimer();
+        init(sceneWidth, sceneHeight, minScreenY);
+    }
+    private void init(int sceneWidth, int sceneHeight, int minScreenY) {
+        this.mMaxScreenX = sceneWidth;
+        this.mMaxScreenY = sceneHeight;
+        this.mMinScreenY = minScreenY;
+        this.mMinScreenX = 0;
+        mProtector = new Protector(mMaxScreenX, mMaxScreenY, minScreenY);
+        mTimerProtector = new UtilTimerDelay();
+        mTimerProtector.startTimer();
     }
     public void update(double speedPlayer) {
-        if (timerProtector.timerDelay(8)&&(!MainPlayer.isShieldsOn())){
-            protector.update(speedPlayer);
-            if (protector.getX()<minScreenX){
-                protector = null;
-                protector = new Protector(maxScreenX, maxScreenY,minScreenY);
-                timerProtector.startTimer();
+        if (mTimerProtector.timerDelay(8)&&(!MainPlayer.isShieldsOn())){
+            mProtector.update(speedPlayer);
+            if (mProtector.getX()< mMinScreenX){
+                mProtector = null;
+                mProtector = new Protector(mMaxScreenX, mMaxScreenY, mMinScreenY);
+                mTimerProtector.startTimer();
             }
         }
     }
     public void drawing(GraphicFW graphicFW) {
-        protector.drawing(graphicFW);
+        mProtector.drawing(graphicFW);
     }
-
     public Protector getProtector() {
-        return protector;
+        return mProtector;
     }
-
     public void hitProtectorWithPlayer() {
-        protector = null;
-        protector = new Protector(maxScreenX, maxScreenY,minScreenY);
-        timerProtector.startTimer();
+        mProtector = null;
+        mProtector = new Protector(mMaxScreenX, mMaxScreenY, mMinScreenY);
+        mTimerProtector.startTimer();
     }
 }

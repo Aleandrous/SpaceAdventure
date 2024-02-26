@@ -1,9 +1,7 @@
 package com.example.spaceadventure.utilits;
 
 import android.content.SharedPreferences;
-
 import com.example.alex_framework.CoreFW;
-
 public class SettingsGame {
     public static int[] distance = {9999, 5555, 4444, 3333, 1111};
     public static void saveSettings(CoreFW coreFW){
@@ -19,7 +17,6 @@ public class SettingsGame {
             distance[i] = coreFW.getSharedPreferences().getInt("passedDistance" + i, distance[i]);
         }
     }
-
     public static void addDistance ( int values){
         for (int i = 0; i < 5; i++) {
             if (distance[i] < values){
@@ -29,7 +26,6 @@ public class SettingsGame {
                 distance [i] = values;
                 break;
             }
-            
         }
     }
 }
